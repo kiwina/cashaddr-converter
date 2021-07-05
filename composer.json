@@ -31,8 +31,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Kiwina\\CashaddrConverter\\": "src",
-            "Kiwina\\CashaddrConverter\\Database\\Factories\\": "database/factories"
+            "Kiwina\\CashaddrConverter\\": "src"
         }
     },
     "autoload-dev": {
