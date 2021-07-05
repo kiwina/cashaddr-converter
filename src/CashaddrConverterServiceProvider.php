@@ -5,7 +5,6 @@ namespace Kiwina\CashaddrConverter;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
 
-
 class CashaddrConverterServiceProvider extends ServiceProvider implements DeferrableProvider
 {
     /**
