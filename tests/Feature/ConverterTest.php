@@ -4,7 +4,6 @@
 namespace Kiwina\CashaddrConverter\Tests\Feature;
 
 use Kiwina\CashaddrConverter\CashaddrConverter;
-use Kiwina\CashaddrConverter\CashaddrConverterException;
 
 it('Test P2PKH addresses', function () {
     $address = '12higDjoCCNXSA95xZMWUdPvXNmkAduhWv';
