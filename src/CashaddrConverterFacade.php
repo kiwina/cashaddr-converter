@@ -11,6 +11,6 @@ class CashaddrConverterFacade extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'cashaddr-converter';
+        return CashaddrConverter::class;
     }
 }
