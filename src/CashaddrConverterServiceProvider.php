@@ -2,19 +2,26 @@
 
 namespace Kiwina\CashaddrConverter;
 
-use Spatie\LaravelPackageTools\Package;
-use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Illuminate\Contracts\Support\DeferrableProvider;
+use Illuminate\Support\ServiceProvider;
 
-class CashaddrConverterServiceProvider extends PackageServiceProvider
+
+class CashaddrConverterServiceProvider extends ServiceProvider implements DeferrableProvider
 {
-    public function configurePackage(Package $package): void
+    /**
+     * Register services.
+     *
+     * @return void
+     */
+    public function register()
     {
-        /*
-         * This class is a Package Service Provider
-         *
-         * More info: https://github.com/spatie/laravel-package-tools
-         */
-        $package
-            ->name('cashaddr-converter');
+        $this->app->singleton(CashaddrConverter::class, function () {
+            return new CashaddrConverter();
+        });
+    }
+
+    public function provides()
+    {
+        return [CashaddrConverter::class];
     }
 }
