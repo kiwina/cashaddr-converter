@@ -7,7 +7,6 @@ use Orchestra\Testbench\TestCase as BaseTestCase;
 
 class TestCase extends BaseTestCase
 {
-
     /**
      * Setup the test environment.
      */
@@ -25,6 +24,5 @@ class TestCase extends BaseTestCase
 
     public function getEnvironmentSetUp($app)
     {
-
     }
 }

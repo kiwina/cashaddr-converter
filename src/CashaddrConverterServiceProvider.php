@@ -4,7 +4,6 @@ namespace Kiwina\CashaddrConverter;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Kiwina\CashaddrConverter\Commands\CashaddrConverterCommand;
 
 class CashaddrConverterServiceProvider extends PackageServiceProvider
 {

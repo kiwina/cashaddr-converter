@@ -16,7 +16,7 @@ class CashaddrConverter
             -1, 9, 10, 11, 12, 13, 14, 15, 16, -1, 17, 18, 19, 20, 21, -1,
             22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, -1, -1, -1, -1, -1,
             -1, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, -1, 44, 45, 46,
-            47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, -1, -1, -1, -1, -1];
+            47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, -1, -1, -1, -1, -1, ];
     public const BECH_ALPHABET =
         [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
             -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
@@ -25,7 +25,7 @@ class CashaddrConverter
             -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
             -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
             -1, 29, -1, 24, 13, 25, 9, 8, 23, -1, 18, 22, 31, 27, 19, -1,
-            1, 0, 3, 16, 11, 28, 12, 14, 6, 4, 2, -1, -1, -1, -1, -1];
+            1, 0, 3, 16, 11, 28, 12, 14, 6, 4, 2, -1, -1, -1, -1, -1, ];
     public const EXPAND_PREFIX_UNPROCESSED = [2, 9, 20, 3, 15, 9, 14, 3, 1, 19, 8, 0];
     public const EXPAND_PREFIX_TESTNET_UNPROCESSED = [2, 3, 8, 20, 5, 19, 20, 0];
     public const EXPAND_PREFIX = 1058337025301;
@@ -33,7 +33,7 @@ class CashaddrConverter
     public const BASE16 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, -1, -1, -1, -1, -1, -1, -1, -1,
         -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
         -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 10, 11, 12,
-        13, 14, 15];
+        13, 14, 15, ];
 
     /**
      * @throws CashaddrConverterException
@@ -63,14 +63,13 @@ class CashaddrConverter
         return self::new2old($address, true);
     }
 
-
     /**
      * convertBits is the internal function to convert 256-based bytes
      * to base-32 grouped bit arrays and vice versa.
      * @param array $data Data whose bits to be re-grouped
-     * @param integer $fromBits Bits per input group of the $data
-     * @param integer $toBits Bits to be put to each output group
-     * @param boolean $pad Whether to add extra zeroes
+     * @param int $fromBits Bits per input group of the $data
+     * @param int $toBits Bits to be put to each output group
+     * @param bool $pad Whether to add extra zeroes
      * @return array $ret
      * @throws CashaddrConverterException
      */
@@ -102,7 +101,7 @@ class CashaddrConverter
             if ($bits) {
                 $ret[] = ($acc << $toBits - $bits) & $maxv;
             }
-        } else if ($bits >= $fromBits || ((($acc << ($toBits - $bits))) & $maxv)) {
+        } elseif ($bits >= $fromBits || ((($acc << ($toBits - $bits))) & $maxv)) {
             throw new CashaddrConverterException('Error!');
         }
 
@@ -112,8 +111,8 @@ class CashaddrConverter
     /**
      * polyMod is the internal function create BCH codes.
      * @param array $var 5-bit grouped data array whose polyMod to be calculated.
-     * @param integer c Starting value, 1 if the prefix is appended to the array.
-     * @return integer $polymodValue polymod result
+     * @param int c Starting value, 1 if the prefix is appended to the array.
+     * @return int $polymodValue polymod result
      */
     private static function polyMod(array $var, $c = 1): int
     {
@@ -209,23 +208,23 @@ class CashaddrConverter
             // P2PKH
             $addressType = 0;
             $realNet = true;
-        } else if ($version === 0x05) {
+        } elseif ($version === 0x05) {
             // P2SH
             $addressType = 1;
             $realNet = true;
-        } else if ($version === 0x6f) {
+        } elseif ($version === 0x6f) {
             // Testnet P2PKH
             $addressType = 0;
             $realNet = false;
-        } else if ($version === 0xc4) {
+        } elseif ($version === 0xc4) {
             // Testnet P2SH
             $addressType = 1;
             $realNet = false;
-        } else if ($version === 0x1c) {
+        } elseif ($version === 0x1c) {
             // BitPay P2PKH
             $addressType = 0;
             $realNet = true;
-        } else if ($version === 0x28) {
+        } elseif ($version === 0x28) {
             // BitPay P2SH
             $addressType = 1;
             $realNet = true;
@@ -266,22 +265,22 @@ class CashaddrConverter
     /**
      * Decodes Cash Address.
      * @param string $inputNew New address to be decoded.
-     * @param boolean $shouldFixErrors Whether to fix typing errors.
+     * @param bool $shouldFixErrors Whether to fix typing errors.
      * @return array|string $decoded Returns decoded byte array if it can be decoded.
      * @throws CashaddrConverterException
      */
-    public static function decodeNewAddr(string $inputNew, bool $shouldFixErrors): array|string
+    public static function decodeNewAddr(string $inputNew, bool $shouldFixErrors): array | string
     {
         $inputNew = strtolower($inputNew);
-        if (!str_contains($inputNew, ':')) {
+        if (! str_contains($inputNew, ':')) {
             $afterPrefix = 0;
             $expand_prefix = self::EXPAND_PREFIX;
             $isTestnetAddressResult = false;
-        } else if (str_starts_with($inputNew, 'bitcoincash:')) {
+        } elseif (str_starts_with($inputNew, 'bitcoincash:')) {
             $afterPrefix = 12;
             $expand_prefix = self::EXPAND_PREFIX;
             $isTestnetAddressResult = false;
-        } else if (str_starts_with($inputNew, 'bchtest:')) {
+        } elseif (str_starts_with($inputNew, 'bchtest:')) {
             $afterPrefix = 8;
             $expand_prefix = self::EXPAND_PREFIX_TESTNET;
             $isTestnetAddressResult = true;
@@ -310,7 +309,7 @@ class CashaddrConverter
             // Checksum is wrong!
             // Try to fix up to two errors
             if ($shouldFixErrors) {
-                $syndromes = array();
+                $syndromes = [];
                 foreach ($data as $p => $pValue) {
                     for ($e = 1; $e < 32; $e++) {
                         $data[$p] ^= $e;
@@ -327,12 +326,15 @@ class CashaddrConverter
                     if (array_key_exists($s0 ^ $checksum, $syndromes)) {
                         $data[$pe >> 5] ^= $pe % 32;
                         $data[$syndromes[$s0 ^ $checksum] >> 5] ^= $syndromes[$s0 ^ $checksum] % 32;
+
                         return self::rebuildAddress(array_merge($unexpand_prefix, $data));
                     }
                 }
+
                 throw new CashaddrConverterException('Can\'t correct typing errors!');
             }
         }
+
         return [$data, $isTestnetAddressResult];
     }
 
@@ -343,7 +345,7 @@ class CashaddrConverter
      * if there are no errors.
      * @throws CashaddrConverterException
      */
-    public static function fixCashAddrErrors(string $inputNew): array|string
+    public static function fixCashAddrErrors(string $inputNew): array | string
     {
         try {
             $corrected = self::decodeNewAddr($inputNew, true);
@@ -357,11 +359,10 @@ class CashaddrConverter
         }
     }
 
-
     /**
      * new2old converts an address in the Cash Address format to the old format.
      * @param string $inputNew Cash Address (either mainnet or testnet)
-     * @param boolean $shouldFixErrors Whether to fix typing errors.
+     * @param bool $shouldFixErrors Whether to fix typing errors.
      * @return string $oldAddress Old style 1... or 3... address
      * @throws CashaddrConverterException
      */
@@ -389,7 +390,7 @@ class CashaddrConverter
             } else {
                 $bytes = [0x6f];
             }
-        } else if ($addressType) {
+        } elseif ($addressType) {
             $bytes = [0x05];
         } else {
             $bytes = [0x00];
@@ -455,6 +456,7 @@ class CashaddrConverter
         for ($i = 0; $i < 4; $i++) {
             $hashArray[] = self::BASE16[ord($hash[2 * $i]) - 48] * 16 + self::BASE16[ord($hash[2 * $i + 1]) - 48];
         }
+
         return $hashArray;
     }
 }
